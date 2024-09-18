@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: BerryRotunda-Regular, 'Berry Rotunda';
+        font-size: 79.85px;
+      }
+
+      .cls-2 {
+        font-family: FloralCapitals-Regular, 'Floral Capitals';
+        font-size: 266.18px;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(14.51 195.75)"><tspan x="0" y="0">G</tspan></text>
+  <text class="cls-1" transform="translate(212 93.41)"><tspan x="0" y="0">arden</tspan><tspan x="0" y="86.51">craft</tspan></text>
+</svg>

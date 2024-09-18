@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Josh_MP_Test.unity
+    guid: 57fb7edf55eadea4bbde828ab1990f72
+  - enabled: 0
+    path: Assets/Scenes/Josh/MP_2.unity
+    guid: 4c1ffa832f55b64408d7b06891c053cd
+  - enabled: 0
+    path: Assets/Scenes/Josh/JoshPlayground.unity
+    guid: 9812ca4eecc0f4e40b6cdcb43d2ad7e1
+  - enabled: 0
+    path: Assets/Scenes/JennaWhitebox.unity
+    guid: 185a93ee25c02144dbeedc4be5b206b7
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: 25e813efd4a91664daf3062100edcbac
+  - enabled: 0
+    path: Assets/Scenes/ElonsGardenScene2 1.unity
+    guid: 8629b8ddc744a03498647035c282e2b4
+  - enabled: 1
+    path: Assets/Scenes/ElonMain.unity
+    guid: ed18e2abad50d6c44be6d72894783d70
+  m_configObjects: {}

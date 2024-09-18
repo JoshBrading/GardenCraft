@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - StirObj
+  - Water
+  - Ground
+  - PlanterBox
+  - Seed1
+  - Crow
+  - FullGrown
+  - Cauldron
+  - Shovel
+  - Seed2
+  - Seed3
+  - Potion
+  - Ingredient
+  - Potion_1
+  - Potion_2
+  - Potion_3
+  - Recipe
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Pickup
+  - Water
+  - UI
+  - Player
+  - Interact
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
