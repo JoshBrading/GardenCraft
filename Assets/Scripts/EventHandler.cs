@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class EventHandler : MonoBehaviour
+public class EventHandler : NetworkBehaviour
 {
     private float timer;
     public float defaultTimer;
@@ -25,6 +25,7 @@ public class EventHandler : MonoBehaviour
 
     void Update()
     {
+        if (!IsHost) return;
         timer -= Time.deltaTime;
 
         if (timer < 0)// When timer reaches 0 reset the timer
@@ -36,32 +37,39 @@ public class EventHandler : MonoBehaviour
     IEnumerator EventStart()
     {
         eventIndex = Random.Range(0, 3);
-        
-            
-        if (eventIndex == 0) //Crow Outcome
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClients)
         {
-            spawnIndex = Random.Range(0, spawnPoints.Length);
 
-            GameObject go = Instantiate(objectsToSpawn[0], spawnPoints[spawnIndex].position, Quaternion.identity);
+            PlayerController player = client.Value.PlayerObject.GetComponent<PlayerController>();
 
-            spawnedObjects.Add(go);
+            if (eventIndex == 0) //Crow Outcome
+            {
+                spawnIndex = Random.Range(0, spawnPoints.Length);
 
-            Debug.Log("Crow");
-        }
-        else if (eventIndex == 1) //Slime Outcome
-        {
-            Debug.Log("Slime");
+                GameObject go = Instantiate(objectsToSpawn[0]);
+                NetworkObject networkObject = go.GetComponent<NetworkObject>();
+                networkObject.Spawn();
+                networkObject.transform.position = spawnPoints[spawnIndex].position;
 
-            PlayerController player = GetComponent<PlayerController>();
+                spawnedObjects.Add(go);
 
-            PlayerController.SlimeState = 1;
-            NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerController>().SlimeActive();
+                Debug.Log("Crow");
+            }
+            else if (eventIndex == 1) //Slime Outcome
+            {
+                Debug.Log("Slime");
+
+                player.SlimeActiveClientRPC(true);
 
 
-        }
-        else if(eventIndex == 2)
-        {
-            Debug.Log("Do nothing Event");
+            }
+            else if (eventIndex == 2)
+            {
+                Debug.Log("Do nothing Event");
+            }
+
+
         }
 
 

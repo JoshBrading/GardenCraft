@@ -14,7 +14,6 @@ public class PlantGrowth : NetworkBehaviour
     public float MustWaterDefault;
     public GameObject waterInd;
     public bool isWatered;
-    public GameObject crow;
     public GameObject ingredientPrefab;
     // Start is called before the first frame update
     void Start()

@@ -25,6 +25,10 @@ public class PlayerController : NetworkBehaviour
     public float moveAcceleration = 1f;
     public float jumpForce = 10f;
     public float gravityMultiplier = 1f;
+    public float distanceSoundQ = 3f;
+
+    private Vector3 lastSoundPos = Vector3.zero;
+
     Vector2 DeltaPointer;
     bool isSprinting = false;
 
@@ -47,6 +51,8 @@ public class PlayerController : NetworkBehaviour
     public ParticleSystem waterParticle;
 
     public static int SlimeState;
+
+    public Animator anim;
 
     private void Awake()
     {
@@ -75,14 +81,18 @@ public class PlayerController : NetworkBehaviour
 
         look = playerControls.Player.Look;
         look.Enable();
+
+        //Player Animations
+        anim = GetComponentInChildren<Animator>();
      }
 
      public override void OnNetworkSpawn()
      {
          if (IsOwner)
          {
-             this.transform.GetChild(0).GetComponent<Camera>().enabled = true;
-         }
+             this.transform.GetChild(0).GetChild(2).GetComponent<Camera>().enabled = true;
+            this.transform.GetChild(0).GetChild(2).GetComponent<AudioListener>().enabled = true;
+        }
         base.OnNetworkSpawn();
      }
 
@@ -103,8 +113,7 @@ public class PlayerController : NetworkBehaviour
         {
             DeltaPointer = look.ReadValue<Vector2>();
 
-            camera.transform.Rotate(new Vector3(0f, DeltaPointer.x * lookSensitivity, 0f), Space.Self);
-            // TODO: Add rotation for mesh here when we have a player model
+            this.transform.Rotate(new Vector3(0f, DeltaPointer.x * lookSensitivity, 0f), Space.Self);
 
             currentLookAngle += -DeltaPointer.y * lookSensitivity;
             currentLookAngle = Mathf.Clamp(currentLookAngle, -maxLookAngle, maxLookAngle);
@@ -136,16 +145,24 @@ public class PlayerController : NetworkBehaviour
         if (moveDirection.magnitude > 0)
         {
             currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, moveAcceleration);
+            anim.SetFloat("Blend", 1f, 0.1f, Time.deltaTime); //Walking animation
         }
         else
         {
             currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, moveAcceleration);
+            anim.SetFloat("Blend", 0f, 0.1f, Time.deltaTime); //Idle animation
         }
 
         body.velocity = new Vector3(currentVelocity.x, body.velocity.y, currentVelocity.z);
 
         // Modify gravity for player, this helps the player feel more "weighty"
-        body.AddForce(Physics.gravity * (gravityMultiplier - 1) * body.mass); 
+        body.AddForce(Physics.gravity * (gravityMultiplier - 1) * body.mass);
+
+        if (isGrounded && Vector3.Distance(this.transform.position, lastSoundPos) > distanceSoundQ)
+        {
+            camera.GetComponent<SFXCam>().OnMove();
+            lastSoundPos = camera.transform.position;
+        }
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -173,20 +190,20 @@ public class PlayerController : NetworkBehaviour
         canLook = !canLook;
     }
 
-    public void SlimeActive()
+    [ClientRpc]
+    public void SlimeActiveClientRPC(bool active)
     {
-        if (SlimeState == 0)
+        if (!active)
         {
             //Normal Values
             walkSpeed = 10f;
             moveAcceleration = 1;
         }
-        else
+        if( active )
         {
             //Slippery Values
             walkSpeed = 20f;
             moveAcceleration = 0.08f;
         }
-
     }
 }

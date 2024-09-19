@@ -81,6 +81,7 @@ public class Pickup : NetworkBehaviour
 
             heldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
             heldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
+            heldObjRb.constraints = RigidbodyConstraints.None;
 
             heldObjRb.isKinematic = true;
             //heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
@@ -140,6 +141,7 @@ public class Pickup : NetworkBehaviour
     }
     void ThrowObject()
     {
+        this.gameObject.GetComponent<SFXCam>().OnThrow();
         //same as drop function, but add force to object before undefining it
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = 3;

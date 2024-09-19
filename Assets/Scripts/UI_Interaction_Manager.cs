@@ -13,7 +13,8 @@ public class UI_Interaction_Manager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _camera = this.GetComponent<Camera>();
+        _camera = NetworkManager.Singleton.LocalClient.PlayerObject.transform.GetChild(0).transform.GetChild(2).GetComponent<Camera>();
+        //_camera = this.GetComponent<Camera>();
         centerText.text = "+";
     }
 
@@ -56,7 +57,7 @@ public class UI_Interaction_Manager : NetworkBehaviour
                     if (!NetworkManager.IsServer && hit.collider.CompareTag("Recipe"))
                     {
                         name = "Pickup to learn " + (string)Variables.Object(hit.collider.gameObject).Get("Name");
-                        if(Input.GetMouseButtonDown(0))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             recipe.text = $"Combine the following...\n{(string)Variables.Object(hit.collider.gameObject).Get("Ingredient_1")}\n{(string)Variables.Object(hit.collider.gameObject).Get("Ingredient_2")}";
                         }

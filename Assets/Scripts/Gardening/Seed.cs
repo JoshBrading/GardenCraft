@@ -14,6 +14,7 @@ public class Seed : NetworkBehaviour
             var plantObject = Instantiate(Plant, transform.position, Quaternion.identity);
             var networkPlantObject = plantObject.GetComponent<NetworkObject>();
             networkPlantObject.Spawn();
+            networkPlantObject.transform.position = new Vector3(collision.transform.position.x, collision.transform.position.y + 0.25f, collision.transform.position.z);
             Destroy(gameObject);
         }
 

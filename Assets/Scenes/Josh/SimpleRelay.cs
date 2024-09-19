@@ -57,6 +57,9 @@ public class SimpleRelay : MonoBehaviour
 
     public Button joinButton;
 
+    public GameObject randomSpawner;
+
+    public GameObject firstBunny;
 
     Guid hostAllocationId;
     Guid playerAllocationId;
@@ -128,6 +131,8 @@ public class SimpleRelay : MonoBehaviour
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
 
+            //randomSpawner.GetComponent<SpawnAtRandomLocation>().OnSessionStart();
+
         }
         else
         {
@@ -172,6 +177,9 @@ public class SimpleRelay : MonoBehaviour
 
         canvas.gameObject.SetActive(false);
         Cursor.visible = false;
+
+
+        //randomSpawner.GetComponent<SpawnAtRandomLocation>().OnSessionStart();
 
         UpdateUI();
     }
@@ -313,6 +321,8 @@ public class SimpleRelay : MonoBehaviour
         Debug.Log($"Connected: {clientId}");
         canvas.gameObject.SetActive(false);
         Cursor.visible = false;
+        firstBunny.GetComponent<InteractableAnimal>().start = true;
+        //randomSpawner.GetComponent<SpawnAtRandomLocation>().OnClientJoin();
     }
 
     private void OnClientDisconnectCallback(ulong clientId)

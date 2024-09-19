@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using Unity.Netcode;
 
-public class CrowSpawner : MonoBehaviour
+public class CrowSpawner : NetworkBehaviour
 {
     // Adjust the speed for the application.
     public float speed = 1.0f;
@@ -17,7 +15,7 @@ public class CrowSpawner : MonoBehaviour
     {
         
         Transform target = GameObject.FindWithTag("Ingredient").transform;
-        if (target)
+        if (target != null)
         {
             Debug.Log(target);
         }
@@ -37,20 +35,20 @@ public class CrowSpawner : MonoBehaviour
             // Swap the position of the cylinder.
             target.position *= -1.0f;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollision(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ingredient"))
-        {
-            Debug.Log("I'm touching your eggplant");
-            this.anim.Play();
-            StartCoroutine(CrowDrop());
-        }
+        
+       // if (collision.gameObject.CompareTag("Ingredient"))
+       // {
+       //     Debug.Log("I'm touching your eggplant");
+       //     this.anim.Play();
+       //     //collision.gameObject.SetActive(false);
+       //     Destroy(collision.gameObject);
+       //     Destroy(gameObject);
+       //     //StartCoroutine(CrowDrop());
+       // }
 
         if (collision.gameObject.CompareTag("Shovel"))
         {
@@ -65,6 +63,16 @@ public class CrowSpawner : MonoBehaviour
         {
             Debug.Log("WHACK EM");
             gameObject.SetActive(false);
+        }
+
+        if (other.gameObject.CompareTag("Ingredient"))
+        {
+            Debug.Log("I'm touching your eggplant");
+            this.anim.Play();
+            //collision.gameObject.SetActive(false);
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+            //StartCoroutine(CrowDrop());
         }
     }
 

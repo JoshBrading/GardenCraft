@@ -7,11 +7,14 @@ public class QuickHostClientAutoTransfer : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (NetworkManager.Singleton.IsServer)
+        if (NetworkManager.Singleton.IsHost)
         {
             Debug.Log(other.gameObject.tag);
-            this.GetComponent<NetworkObject>().ChangeOwnership(other.GetComponent<NetworkObject>().OwnerClientId);
-            Debug.Log($"Ownership Changed to: {this.GetComponent<NetworkObject>().OwnerClientId}");
+            if( other.gameObject.CompareTag("Player"))
+            {
+                this.GetComponent<NetworkObject>().ChangeOwnership(other.GetComponent<NetworkObject>().OwnerClientId);
+                Debug.Log($"Ownership Changed to: {this.GetComponent<NetworkObject>().OwnerClientId}");
+            }
         }
     }
 }

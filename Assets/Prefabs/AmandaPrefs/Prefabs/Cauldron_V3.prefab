@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1797767455077927208, guid: f2ab6ddae8c65d043937e5a7bdca2b85, type: 3}
+  - {fileID: 2100000, guid: 744c3182d3c39f44e816869f025b43d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,7 +178,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1797767455077927208, guid: f2ab6ddae8c65d043937e5a7bdca2b85, type: 3}
+  - {fileID: 2100000, guid: 744c3182d3c39f44e816869f025b43d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,6 +209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4717816952091321064}
+  - component: {fileID: -6085421009690837526}
   m_Layer: 0
   m_Name: Cauldron_V3
   m_TagString: Untagged
@@ -232,6 +233,28 @@ Transform:
   - {fileID: 7629986954504173571}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &-6085421009690837526
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2609693771857165483}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3129182324171060304, guid: 32f902a9a87ea454589d8b127896a5c0, type: 3}
 --- !u!1 &4014236921465281690
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +316,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1797767455077927208, guid: f2ab6ddae8c65d043937e5a7bdca2b85, type: 3}
+  - {fileID: 2100000, guid: f493da6843c53784eaed8d37d683162d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

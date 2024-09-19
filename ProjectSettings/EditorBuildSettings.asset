@@ -17,13 +17,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/JennaWhitebox.unity
     guid: 185a93ee25c02144dbeedc4be5b206b7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 25e813efd4a91664daf3062100edcbac
   - enabled: 0
     path: Assets/Scenes/ElonsGardenScene2 1.unity
     guid: 8629b8ddc744a03498647035c282e2b4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ElonMain.unity
     guid: ed18e2abad50d6c44be6d72894783d70
+  - enabled: 1
+    path: Assets/Scenes/JOSH HERE NOW.unity
+    guid: 8544919d698a00249a3f59f4567c72ae
   m_configObjects: {}

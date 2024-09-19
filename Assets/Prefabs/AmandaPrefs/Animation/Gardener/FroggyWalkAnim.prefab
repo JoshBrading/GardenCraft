@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6046436618041424695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -32.15016
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.80528116
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.456357
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8380359895142591403, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: df1b6fa1d172bd84b95d5f819c9506ab, type: 2}
+    - target: {fileID: -8380359895142591403, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 37086792b7b2a58418da428b06f39ffb, type: 2}
+    - target: {fileID: -8380359895142591403, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: a14d95fef35ca4c468a20a007d2c69f5, type: 2}
+    - target: {fileID: -8380359895142591403, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2767ad343f2615346a27ce48da4fbc1b, type: 2}
+    - target: {fileID: -8380359895142591403, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: e5a75c4bfae5e98498cb52d66749abf9, type: 2}
+    - target: {fileID: 919132149155446097, guid: 5006e94020741a24db8cff134f530b69, type: 3}
+      propertyPath: m_Name
+      value: FroggyWalkAnim
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5006e94020741a24db8cff134f530b69, type: 3}

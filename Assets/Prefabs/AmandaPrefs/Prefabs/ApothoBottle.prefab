@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6387311501162204015}
   - component: {fileID: 5080826104851881854}
   - component: {fileID: 3723126865118941185}
+  - component: {fileID: -2182558192956302310}
   m_Layer: 0
   m_Name: ApothoBottle
   m_TagString: Untagged
@@ -62,8 +63,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -1134714066672644336, guid: 044fe0043db5ac24c8eb6d06a9e8032a, type: 3}
-  - {fileID: -5483326870233243921, guid: 044fe0043db5ac24c8eb6d06a9e8032a, type: 3}
-  - {fileID: -7441909390911596350, guid: 044fe0043db5ac24c8eb6d06a9e8032a, type: 3}
+  - {fileID: 2100000, guid: 91f5669521a1d484eb1793d01e5289bd, type: 2}
+  - {fileID: 2100000, guid: a0c772f065fa09a4286a207411e13bae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,3 +86,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-2182558192956302310
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8567821378222790666}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8409771424858943459, guid: 044fe0043db5ac24c8eb6d06a9e8032a, type: 3}

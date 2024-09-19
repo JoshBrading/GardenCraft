@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1531355197
+  GlobalObjectIdHash: 1663637259
   InScenePlacedSourceGlobalObjectIdHash: 3351782235
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -185,6 +185,9 @@ MonoBehaviour:
   rayDistance: 100
   stirCollider: {fileID: 5417725598058427041}
   colorTransitionSpeed: 1
+  potion: {fileID: 1596864687984168916, guid: 8941ff710fd01674d98353037ad70966, type: 3}
+  default1: {r: 0.064836234, g: 0.24341655, b: 0.2924528, a: 0}
+  default2: {r: 0.057004265, g: 0.16290763, b: 0.1981132, a: 0}
 --- !u!135 &1941402197490768737
 SphereCollider:
   m_ObjectHideFlags: 0

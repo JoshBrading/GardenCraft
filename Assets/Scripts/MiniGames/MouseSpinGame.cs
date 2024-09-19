@@ -1,9 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Color = UnityEngine.Color;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
+using UnityEngine.Audio;
+using UnityEngine.VFX;
 
 public class PotionMixer : NetworkBehaviour
 {
@@ -11,6 +16,14 @@ public class PotionMixer : NetworkBehaviour
     public Transform focusTransform;
     [Range(0.1f, 4f)] public float cameraTrackingSpeed = 1.5f;
     private Camera playerCamera;
+
+    [Header("UI")]
+    public SpriteRenderer leftTurnSprite;
+    public SpriteRenderer rightTurnSprite;
+
+    [Header("Spawning")]
+    public Transform[] spawnPositions;
+    public Transform potionSpawn;
 
     [Header("Stir")]
     public GameObject stirObject;
@@ -26,6 +39,11 @@ public class PotionMixer : NetworkBehaviour
     public float colorTransitionSpeed = 1f;
 
     public GameObject potion;
+
+    public AudioSource audioSource;
+    public AudioClip[] splashSFX;
+
+    public VisualEffect particles;
 
     private int ingredientCount = 0;
 
@@ -45,6 +63,11 @@ public class PotionMixer : NetworkBehaviour
     public Color default2;
 
     private float angleSum;
+
+    private Transform oldCameraTransform;
+
+    private List<string> recipeTurnOrder;
+    private int recipeTurnIndex = 0;
     private void Awake()
     {
         couldronMeshRenderer = this.transform.GetChild(0).GetComponent<MeshRenderer>();
@@ -53,7 +76,6 @@ public class PotionMixer : NetworkBehaviour
 
         targetColor = couldronMeshRenderer.material.GetColor("_Color");
         targetColor2 = couldronMeshRenderer.material.GetColor("_Color2");
-
     }
 
     void OnEnable()
@@ -66,13 +88,14 @@ public class PotionMixer : NetworkBehaviour
 
         if (other.tag == "Player") HandlePlayerEnter(other);
         if (other.tag == "Ingredient") HandleIngredientEnter(other);
+        if (other.tag == "Recipe") HandleRecipeEnter(other);
 
     }
 
     private void HandlePlayerEnter(Collider other)
     {
         other.GetComponent<PlayerController>().toggleLook();
-
+        oldCameraTransform = other.transform.GetChild(0).GetChild(2).transform;
         if (NetworkManager.Singleton.IsServer)
         {
             this.GetComponent<NetworkObject>().ChangeOwnership(other.GetComponent<NetworkObject>().OwnerClientId);
@@ -86,9 +109,9 @@ public class PotionMixer : NetworkBehaviour
     }
 
 
-    private void HandleIngredientEnter( Collider other)
+    private void HandleIngredientEnter(Collider other)
     {
-        if( ingredientCount == 0 )
+        if (ingredientCount == 0)
         {
             targetColor = other.GetComponent<MeshRenderer>().material.GetColor("_Color");
         }
@@ -97,6 +120,24 @@ public class PotionMixer : NetworkBehaviour
             targetColor2 = other.GetComponent<MeshRenderer>().material.GetColor("_Color");
         }
         ingredientCount++;
+        audioSource.clip = splashSFX[Random.Range(0, splashSFX.Length)];
+        audioSource.Play();
+        Destroy(other.gameObject);
+    }
+
+    private void HandleRecipeEnter(Collider other)
+    {
+        VariableDeclarations variables = Variables.Object(other.GetComponent<Variables>());
+        Debug.Log(variables.Get("Recipe Rotation Order"));
+        recipeTurnOrder = (List<string>)variables.Get("Recipe Rotation Order");
+        if (recipeTurnOrder[recipeTurnIndex] == "Right")
+        {
+            rightTurnSprite.enabled = true;
+        }
+        else
+        {
+            rightTurnSprite.enabled = false;
+        }
         Destroy(other.gameObject);
     }
 
@@ -108,7 +149,7 @@ public class PotionMixer : NetworkBehaviour
         newColor = Color.Lerp(couldronMeshRenderer.material.GetColor("_Color2"), targetColor2, colorTransitionSpeed * Time.deltaTime);
         couldronMeshRenderer.material.SetColor("_Color2", newColor);
 
-        if (clockwiseCount >= 2 && counterClockwiseCount >= 1)
+        if (particles.enabled == true)
         {
             Debug.Log($"{couldronMeshRenderer.material.GetColor("_Color")} : {targetColor}");
             var couldronColor = couldronMeshRenderer.material.GetColor("_Color");
@@ -122,9 +163,12 @@ public class PotionMixer : NetworkBehaviour
                 counterClockwiseCount = 0;
                 clockwiseCount = 0;
                 SpawnPotionServerRPC();
-                
+                particles.enabled = false;
+
+
             }
         }
+
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -132,22 +176,39 @@ public class PotionMixer : NetworkBehaviour
     {
         var potionObj = Instantiate(potion);
         var networkPotionObj = potionObj.GetComponent<NetworkObject>();
+
         networkPotionObj.Spawn();
-        networkPotionObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 2, this.transform.position.z);
+        networkPotionObj.transform.position = potionSpawn.position;
+
+        Transform newTransform = spawnPositions[Random.Range(0, spawnPositions.Length)];
+        Vector3 position = newTransform.position;
+        this.GetComponent<NetworkObject>().transform.position = position;
+
+        potionSpawn = newTransform.GetChild(0).transform;
+
+        // Optionally, you can call a method to update clients
+        UpdateCouldronPositionClientRPC(position);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        
 
-        playerCamera = other.transform.GetChild(0).GetComponent<Camera>();
+
+        playerCamera = other.transform.GetChild(0).transform.GetChild(2).GetComponent<Camera>();
 
         Vector3 lookDirection = focusTransform.position - playerCamera.transform.position;
-        lookDirection.Normalize();
 
-        playerCamera.transform.rotation = Quaternion.Slerp(playerCamera.transform.rotation, Quaternion.LookRotation(lookDirection), cameraTrackingSpeed * Time.deltaTime);
+        Vector3 cameraLookDirection = new Vector3(lookDirection.x, lookDirection.y, lookDirection.z);
+        Vector3 playerLookDirection = new Vector3(0f, lookDirection.y, 0f);
+
+        cameraLookDirection.Normalize();
+        //playerLookDirection.Normalize();
+
+        playerCamera.transform.rotation = Quaternion.Slerp(playerCamera.transform.rotation, Quaternion.LookRotation(cameraLookDirection), cameraTrackingSpeed * Time.deltaTime);
+        //other.transform.rotation = Quaternion.Slerp(other.transform.rotation, Quaternion.LookRotation(playerLookDirection), cameraTrackingSpeed * Time.deltaTime);
+
 
         if (controlStir)
         {
@@ -167,11 +228,11 @@ public class PotionMixer : NetworkBehaviour
                     float newStirAngle = Vector3.SignedAngle(this.transform.forward, hitPoint - origin, Vector3.up);
 
                     // DeltaAngle negates the transition from -180 to 180
-                    float angleChange = Mathf.DeltaAngle(currentStirAngle, newStirAngle );
+                    float angleChange = Mathf.DeltaAngle(currentStirAngle, newStirAngle);
                     angleSum += angleChange;
                     currentStirAngle = newStirAngle;
 
-                    if ( Vector3.Distance(origin, hitPoint) < maxStirRadius)
+                    if (Vector3.Distance(origin, hitPoint) < maxStirRadius)
                     {
                         stirObject.transform.position = Vector3.Lerp(stirObject.transform.position, hitPoint, stirTrackingSpeed * Time.deltaTime);
                     }
@@ -190,7 +251,10 @@ public class PotionMixer : NetworkBehaviour
                         targetColor2 = temp;
                         clockwiseCount++;
                         angleSum = 0;
-
+                        if (recipeTurnOrder[recipeTurnIndex] == "Right")
+                        {
+                            recipeTurnIndex++;
+                        }
                     }
                     if (angleSum <= -360)
                     {
@@ -201,17 +265,34 @@ public class PotionMixer : NetworkBehaviour
                         targetColor2 = temp;
                         counterClockwiseCount++;
                         angleSum = 0;
-                        
+                        if (recipeTurnOrder[recipeTurnIndex] == "Left")
+                        {
+                            recipeTurnIndex++;
+                        }
                     }
 
-                    if (clockwiseCount >= 2 && counterClockwiseCount >= 1)
+                    if (recipeTurnOrder.Count - 1 < recipeTurnIndex)
                     {
                         Color sum = (targetColor + targetColor2) / 2;
                         targetColor = sum;
                         targetColor2 = sum;
-                    }
+                        recipeTurnIndex = 0;
 
-                    // TODO: Write an update color function with a target color param
+                        particles.enabled = true;
+                        return;
+                    }
+                    if (recipeTurnOrder[recipeTurnIndex] == "Right")
+                    {
+
+                        rightTurnSprite.enabled = true;
+                        leftTurnSprite.enabled = false;
+                    }
+                    else
+                    {
+                        rightTurnSprite.enabled = false;
+                        leftTurnSprite.enabled = true;
+                    }
+                    Debug.Log(recipeTurnOrder[recipeTurnIndex]);
                 }
             }
         }
@@ -230,4 +311,22 @@ public class PotionMixer : NetworkBehaviour
     {
         controlStir = !controlStir;
     }
+
+    [ServerRpc]
+    private void MoveCouldronServerRPC()
+    {
+        Debug.Log("MOVE COULDRON");
+        Vector3 newPosition = spawnPositions[Random.Range(0, spawnPositions.Length)].position;
+        this.GetComponent<NetworkObject>().transform.position = newPosition;
+
+        // Optionally, you can call a method to update clients
+        UpdateCouldronPositionClientRPC(newPosition);
+    }
+
+    [ClientRpc]
+    private void UpdateCouldronPositionClientRPC(Vector3 newPosition)
+    {
+        this.transform.position = newPosition;
+    }
+
 }
